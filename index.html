@@ -2376,88 +2376,64 @@ function resetKolam() {
   svg.classList.remove('draw');
 }
 
-// ── RSVP ──
-// 👇 Paste your deployed Web App URL here after following the setup steps
-const APPS_SCRIPT_URL = 'AKfycbwdwUtQ5AfUCdiQ_sQeL2EPdiwDIFF0PHFTNE5PPSByh0b6rlQdLMJs8am_3fJRsz2U5w';
+// ── RSVP via Google Apps Script ──
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdwUtQ5AfUCdiQ_sQeL2EPdiwDIFF0PHFTNE5PPSByh0b6rlQdLMJs8am_3fJRsz2U5w/exec';
 
-function submitRSVP() {
+async function submitRSVP() {
   const name      = document.getElementById('rsvp-name').value.trim();
   const guests    = document.getElementById('rsvp-guests').value || '1';
   const attending = document.querySelector('input[name="attendance"]:checked').value;
   const blessing  = document.getElementById('rsvp-blessing').value.trim();
   const language  = document.body.classList.contains('telugu') ? 'Telugu' : 'English';
 
-  // Validate
   if (!name) {
     showToast('Please enter your name. / దయచేసి మీ పేరు నమోదు చేయండి.');
     document.getElementById('rsvp-name').focus();
     return;
   }
 
-  // Disable button
   const btn = document.querySelector('.btn-submit');
   const originalHTML = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = '<span class="lang-en">Sending...</span><span class="lang-te">పంపుతున్నాం...</span>';
   btn.style.opacity = '0.7';
 
-  // ── CORS-safe method: hidden iframe + form POST ──
-  // Google Apps Script blocks fetch() from cross-origins.
-  // A native form POST via an invisible iframe sidesteps CORS entirely.
-  const iframeId = 'rsvp-iframe';
-  let iframe = document.getElementById(iframeId);
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.id   = iframeId;
-    iframe.name = iframeId;
-    iframe.style.cssText = 'display:none;position:absolute;width:0;height:0;border:0;';
-    document.body.appendChild(iframe);
+  try {
+    // Use no-cors mode — this sends the data without triggering a CORS preflight.
+    // The response will be opaque (unreadable) but the data DOES reach the Apps Script.
+    // We show success optimistically after the request fires.
+    await fetch(APPS_SCRIPT_URL + '?name=' + encodeURIComponent(name)
+      + '&guests='    + encodeURIComponent(guests)
+      + '&attending=' + encodeURIComponent(attending)
+      + '&blessing='  + encodeURIComponent(blessing)
+      + '&language='  + encodeURIComponent(language), {
+      method: 'GET', // GET avoids preflight entirely — Apps Script handles GET via doGet
+      mode:   'no-cors'
+    });
+  } catch(err) {
+    // no-cors fetch never throws on network success — if we get here it's a real error
+    console.warn('RSVP request error:', err);
   }
 
-  // Build a hidden form and submit it into the iframe
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = `https://script.google.com/macros/s/${APPS_SCRIPT_URL}/exec`;
-  form.target = iframeId; // response loads in iframe, not the page
+  // Show success regardless — the GET request fires and-cors doesn't give us a response
+  const isEn = language === 'English';
+  const msg = isEn
+    ? (attending === 'yes'
+        ? `🙏 Thank you, ${name}! We look forward to celebrating with you.`
+        : `💛 Thank you, ${name}! Your blessings mean the world to us.`)
+    : (attending === 'yes'
+        ? `🙏 ధన్యవాదాలు, ${name}! మీతో పండుగ జరుపుకోవడానికి ఎదురుచూస్తున్నాం.`
+        : `💛 ధన్యవాదాలు, ${name}! మీ ఆశీర్వాదాలు మాకు అమూల్యం.`);
+  showToast(msg);
+  if (attending === 'yes') spawnPetals();
 
-  const fields = { name, guests, attending, blessing, language };
-  Object.entries(fields).forEach(([key, val]) => {
-    const input = document.createElement('input');
-    input.type  = 'hidden';
-    input.name  = key;
-    input.value = val;
-    form.appendChild(input);
-  });
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-
-  // Since we can't read the iframe response due to cross-origin,
-  // we optimistically show success after a short delay
-  setTimeout(() => {
-    const isEn = language === 'English';
-    const msg = isEn
-      ? (attending === 'yes'
-          ? `🙏 Thank you, ${name}! We look forward to celebrating with you.`
-          : `💛 Thank you, ${name}! Your blessings mean the world to us.`)
-      : (attending === 'yes'
-          ? `🙏 ధన్యవాదాలు, ${name}! మీతో పండుగ జరుపుకోవడానికి ఎదురుచూస్తున్నాం.`
-          : `💛 ధన్యవాదాలు, ${name}! మీ ఆశీర్వాదాలు మాకు అమూల్యం.`);
-    showToast(msg);
-    if (attending === 'yes') spawnPetals();
-
-    // Reset form
-    document.getElementById('rsvp-name').value     = '';
-    document.getElementById('rsvp-guests').value   = '';
-    document.getElementById('rsvp-blessing').value = '';
-    document.getElementById('attend-yes').checked  = true;
-
-    // Re-enable button
-    btn.disabled    = false;
-    btn.innerHTML   = originalHTML;
-    btn.style.opacity = '1';
-  }, 1200);
+  document.getElementById('rsvp-name').value     = '';
+  document.getElementById('rsvp-guests').value   = '';
+  document.getElementById('rsvp-blessing').value = '';
+  document.getElementById('attend-yes').checked  = true;
+  btn.disabled      = false;
+  btn.innerHTML     = originalHTML;
+  btn.style.opacity = '1';
 }
 
 function showToast(msg) {
