@@ -687,37 +687,22 @@ body.telugu .lang-en-inline { display: none; }
   transform: translateY(-1px);
 }
 
-.map-placeholder {
-  background: linear-gradient(135deg, #f0e8d8, #e8dcc8);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-  gap: 0.75rem;
-  min-height: 280px;
+.map-embed {
   position: relative;
+  min-height: 320px;
   overflow: hidden;
+  background: #e8dcc8;
 }
-.map-grid {
-  position: absolute; inset: 0;
-  background-image: 
-    linear-gradient(rgba(180,100,30,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(180,100,30,0.12) 1px, transparent 1px);
-  background-size: 32px 32px;
+.map-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
-.map-pin {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-  animation: bounce 2s ease-in-out infinite;
-  position: relative; z-index: 1;
-}
-.map-label {
-  position: relative; z-index: 1;
-  background: white;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  border: 1px solid var(--border-warm);
+@media (max-width: 680px) {
+  .map-embed { min-height: 260px; }
 }
 
 /* ── FOOTER ── */
@@ -900,7 +885,32 @@ body.telugu .lang-en-inline { display: none; }
   to   { transform: translate(290px,250px) rotate(360deg) translate(-290px,-250px); }
 }
 
-/* Scroll animation */
+/* ── KOLAM ANIMATION (triggered by JS class toggle) ── */
+/* Paths: draw in via stroke-dashoffset */
+#kolam-svg .kolam-path { transition: none; }
+#kolam-svg .kolam-petal { transition: none; }
+#kolam-svg .kolam-dots  { transition: none; }
+
+/* When #kolam-svg has .draw class, all transitions activate */
+#kolam-svg.draw .kolam-path:nth-child(1) { transition: stroke-dashoffset 3s ease 0s; stroke-dashoffset: 0 !important; }
+#kolam-svg.draw .kolam-path:nth-child(2) { transition: stroke-dashoffset 2.5s ease 0.5s; stroke-dashoffset: 0 !important; }
+#kolam-svg.draw .kolam-path:nth-child(3) { transition: stroke-dashoffset 2.5s ease 1s; stroke-dashoffset: 0 !important; }
+#kolam-svg.draw .kolam-path:nth-child(4) { transition: stroke-dashoffset 2s ease 1.5s; stroke-dashoffset: 0 !important; }
+
+#kolam-svg.draw .kolam-petal:nth-of-type(1) { transition: opacity 0.8s ease 2s;   opacity: 0.5 !important; }
+#kolam-svg.draw .kolam-petal:nth-of-type(2) { transition: opacity 0.8s ease 2.2s; opacity: 0.5 !important; }
+#kolam-svg.draw .kolam-petal:nth-of-type(3) { transition: opacity 0.8s ease 2.4s; opacity: 0.5 !important; }
+#kolam-svg.draw .kolam-petal:nth-of-type(4) { transition: opacity 0.8s ease 2.6s; opacity: 0.5 !important; }
+#kolam-svg.draw .kolam-petal:nth-of-type(5) { transition: opacity 0.8s ease 2.8s; opacity: 0.5 !important; }
+#kolam-svg.draw .kolam-petal:nth-of-type(6) { transition: opacity 0.8s ease 3s;   opacity: 0.5 !important; }
+
+#kolam-svg.draw .kolam-dots:nth-of-type(1) { transition: opacity 0.5s ease 3.5s; opacity: 1 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(2) { transition: opacity 0.3s ease 0.5s; opacity: 0.8 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(3) { transition: opacity 0.3s ease 0.7s; opacity: 0.8 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(4) { transition: opacity 0.3s ease 0.9s; opacity: 0.8 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(5) { transition: opacity 0.3s ease 1.1s; opacity: 0.8 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(6) { transition: opacity 0.3s ease 1.3s; opacity: 0.8 !important; }
+#kolam-svg.draw .kolam-dots:nth-of-type(7) { transition: opacity 0.3s ease 1.5s; opacity: 0.8 !important; }
 .reveal {
   opacity: 0; transform: translateY(28px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -1542,13 +1552,13 @@ body.telugu .lang-en-inline { display: none; }
   <div class="hero-invite-card">
     <div class="invite-date-row">
       <div class="date-badge">
-        <div class="date-day">08</div>
-        <div class="date-info">August 2025</div>
+        <div class="date-day">01</div>
+        <div class="date-info">July 2026</div>
       </div>
       <div class="date-dot"></div>
       <div class="date-badge">
-        <div class="date-day">Fri</div>
-        <div class="date-info">Shravana Masam</div>
+        <div class="date-day">Wed</div>
+        <div class="date-info">Ashada Masam</div>
       </div>
       <div class="date-dot"></div>
       <div class="date-badge">
@@ -1571,8 +1581,8 @@ body.telugu .lang-en-inline { display: none; }
     </p>
 
     <div class="invite-host">
-      <span class="lang-en">Juturu Venkata Rao & Smt. Jayalakshmi</span>
-      <span class="lang-te te" style="font-family:var(--serif-telugu)">జుటూరు వెంకట రావు & శ్రీమతి జయలక్ష్మి</span>
+      <span class="lang-en">Juturu Rishi Arya</span>
+      <span class="lang-te te" style="font-family:var(--serif-telugu)">జుటూరు రిషి ఆర్య</span>
     </div>
   </div>
 </section>
@@ -1638,22 +1648,6 @@ body.telugu .lang-en-inline { display: none; }
           <p class="tl-desc">
             <span class="lang-en">The main pooja begins. Vedic priests recite the Katha (story) of Lord Satyanarayana. Family gathers around the decorated altar for prayers, offering of flowers, and kumkuma archana.</span>
             <span class="lang-te te">ప్రధాన పూజ ప్రారంభమవుతుంది. వేద పండితులు సత్యనారాయణ కథను చదువుతారు. కుటుంబం అందరూ కలిసి పూజలో పాల్గొంటారు.</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="tl-icon">🍛</div>
-          <div class="tl-time">01:30 PM</div>
-          <h3 class="tl-title">
-            <span class="lang-en">Lunch & Prasadam</span>
-            <span class="lang-te te">భోజనం & ప్రసాదం</span>
-          </h3>
-          <p class="tl-desc">
-            <span class="lang-en">A full traditional Telugu feast served on banana leaves, followed by the sacred Shira Prasadam — semolina pudding blessed by the Lord. Every guest leaves nourished in body and soul.</span>
-            <span class="lang-te te">అరటి ఆకుల మీద పూర్తి తెలుగు వంటకాలు వడ్డించబడతాయి. తర్వాత పవిత్ర శీర ప్రసాదం అందరికీ పంచబడుతుంది.</span>
           </p>
         </div>
       </div>
@@ -1880,7 +1874,7 @@ body.telugu .lang-en-inline { display: none; }
         <div class="cultural-card-header">
           <span class="cultural-card-icon">🥛</span>
           <span class="cultural-card-title">
-            <span class="lang-en">The Boiling Milk (Paal Eruththal)</span>
+            <span class="lang-en">The Boiling Milk (Paal Ponginchatam)</span>
             <span class="lang-te te">పాలు పొంగించడం ఎందుకు?</span>
           </span>
           <span class="cultural-expand">▼</span>
@@ -1890,100 +1884,141 @@ body.telugu .lang-en-inline { display: none; }
             <!-- Milk boiling illustration -->
             <div class="illustration-scene">
               <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;border-radius:8px;" aria-label="Illustration of milk boiling in a traditional pot on a wood fire, overflowing to the East direction, symbolizing abundance">
-                <rect width="400" height="200" fill="#FFF8EC" rx="8"/>
-                <!-- Background floor -->
-                <rect y="155" width="400" height="45" fill="#E8C870"/>
+                <!-- Dark warm background so white milk is clearly visible -->
+                <rect width="400" height="200" fill="#3D1F0A" rx="8"/>
+                <!-- Background floor — dark stone -->
+                <rect y="155" width="400" height="45" fill="#2A1405"/>
+                <!-- Floor glow from fire -->
+                <ellipse cx="200" cy="158" rx="120" ry="18" fill="#FF6600" opacity="0.12"/>
                 <!-- Rangoli on floor -->
-                <circle cx="200" cy="165" r="4" fill="#B30006" opacity="0.6"/>
-                <circle cx="185" cy="165" r="3" fill="#FF9933" opacity="0.5"/>
-                <circle cx="215" cy="165" r="3" fill="#FF9933" opacity="0.5"/>
-                <circle cx="200" cy="155" r="3" fill="#FF9933" opacity="0.5"/>
-                <path d="M182,160 Q200,152 218,160" stroke="#B30006" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <circle cx="200" cy="165" r="4" fill="#B30006" opacity="0.9"/>
+                <circle cx="185" cy="165" r="3" fill="#FF9933" opacity="0.8"/>
+                <circle cx="215" cy="165" r="3" fill="#FF9933" opacity="0.8"/>
+                <circle cx="200" cy="157" r="3" fill="#FF9933" opacity="0.8"/>
+                <path d="M182,160 Q200,152 218,160" stroke="#FF9933" stroke-width="1.5" fill="none" opacity="0.8"/>
                 <!-- Fire wood / hearth -->
-                <rect x="155" y="148" width="90" height="10" fill="#8B4513" rx="3"/>
-                <!-- Wood logs -->
-                <rect x="160" y="140" width="35" height="12" fill="#6B3410" rx="4"/>
-                <rect x="205" y="140" width="35" height="12" fill="#6B3410" rx="4"/>
-                <rect x="170" y="132" width="25" height="12" fill="#5C2D0C" rx="4"/>
-                <rect x="205" y="132" width="25" height="12" fill="#5C2D0C" rx="4"/>
+                <rect x="155" y="148" width="90" height="10" fill="#4A2208" rx="3"/>
+                <!-- Wood logs with glow edges -->
+                <rect x="160" y="140" width="35" height="12" fill="#3A1A06" rx="4"/>
+                <rect x="205" y="140" width="35" height="12" fill="#3A1A06" rx="4"/>
+                <rect x="170" y="132" width="25" height="12" fill="#2C1204" rx="4"/>
+                <rect x="205" y="132" width="25" height="12" fill="#2C1204" rx="4"/>
+                <!-- Ember glow on logs -->
+                <rect x="162" y="148" width="31" height="4" fill="#FF4400" rx="2" opacity="0.5"/>
+                <rect x="207" y="148" width="31" height="4" fill="#FF4400" rx="2" opacity="0.5"/>
                 <!-- Fire flames -->
-                <ellipse cx="200" cy="120" rx="18" ry="22" fill="#FF6600" opacity="0.85"
+                <ellipse cx="200" cy="120" rx="20" ry="24" fill="#FF5500" opacity="0.9"
                          style="animation: flameDance 0.7s ease-in-out infinite;"/>
-                <ellipse cx="200" cy="114" rx="12" ry="16" fill="#FF8800" opacity="0.9"
+                <ellipse cx="200" cy="114" rx="14" ry="18" fill="#FF8800" opacity="0.95"
                          style="animation: flameDance 0.7s ease-in-out infinite 0.1s;"/>
-                <ellipse cx="200" cy="108" rx="8" ry="12" fill="#FFB800" opacity="0.95"
+                <ellipse cx="200" cy="107" rx="9"  ry="13" fill="#FFBB00"
                          style="animation: flameDance 0.7s ease-in-out infinite 0.2s;"/>
-                <ellipse cx="200" cy="104" rx="4" ry="7" fill="#FFDD00"
+                <ellipse cx="200" cy="103" rx="5"  ry="8"  fill="#FFE800"
                          style="animation: flameDance 0.7s ease-in-out infinite 0.15s;"/>
                 <!-- Side flames -->
-                <ellipse cx="188" cy="125" rx="8" ry="14" fill="#FF6600" opacity="0.7"
+                <ellipse cx="186" cy="126" rx="9" ry="15" fill="#FF5500" opacity="0.75"
                          style="animation: flameDance 0.9s ease-in-out infinite 0.3s;"/>
-                <ellipse cx="212" cy="125" rx="8" ry="14" fill="#FF6600" opacity="0.7"
+                <ellipse cx="214" cy="126" rx="9" ry="15" fill="#FF5500" opacity="0.75"
                          style="animation: flameDance 0.9s ease-in-out infinite 0.5s;"/>
-                <!-- Glow on floor -->
-                <ellipse cx="200" cy="155" rx="45" ry="8" fill="#FF9900" opacity="0.15"/>
-                <!-- The pot (Kalash) -->
-                <ellipse cx="200" cy="88" rx="36" ry="10" fill="#B8860B"/>
-                <rect x="165" y="70" width="70" height="22" fill="#C8973A" rx="4"/>
-                <ellipse cx="200" cy="70" rx="33" ry="9" fill="#E8B84B"/>
+                <!-- Fire light bloom on pot bottom -->
+                <ellipse cx="200" cy="90" rx="38" ry="6" fill="#FF6600" opacity="0.2"/>
+
+                <!-- The pot (brass/copper) -->
+                <!-- Pot rim shadow -->
+                <ellipse cx="200" cy="90" rx="38" ry="11" fill="#7A5000"/>
+                <!-- Pot rim top -->
+                <ellipse cx="200" cy="88" rx="36" ry="10" fill="#C8973A"/>
+                <!-- Pot neck band -->
+                <rect x="165" y="70" width="70" height="22" fill="#B8860B" rx="4"/>
+                <ellipse cx="200" cy="70" rx="33" ry="9" fill="#D4A030"/>
                 <!-- Pot body -->
-                <path d="M168,70 Q160,55 165,40 Q175,25 200,22 Q225,25 235,40 Q240,55 232,70" fill="#C8973A"/>
-                <!-- Pot highlights -->
-                <path d="M172,65 Q165,52 168,38 Q175,28 195,25" stroke="#E8B84B" stroke-width="2" fill="none" opacity="0.6"/>
-                <!-- MILK inside -->
-                <ellipse cx="200" cy="22" rx="28" ry="6" fill="white" opacity="0.95"/>
-                <!-- OVERFLOWING MILK (animated) -->
+                <path d="M168,70 Q160,55 165,40 Q175,24 200,21 Q225,24 235,40 Q240,55 232,70" fill="#C8973A"/>
+                <!-- Pot body shading — darker right side -->
+                <path d="M220,30 Q232,45 232,70 L220,70 Q228,48 222,32 Z" fill="#8B6010" opacity="0.4"/>
+                <!-- Pot highlight — lighter left -->
+                <path d="M172,65 Q165,52 168,38 Q175,28 195,25" stroke="#E8C060" stroke-width="2.5" fill="none" opacity="0.7"/>
+                <!-- Pot band decorations -->
+                <line x1="165" y1="76" x2="235" y2="76" stroke="#E8B84B" stroke-width="1" opacity="0.6"/>
+                <line x1="165" y1="80" x2="235" y2="80" stroke="#E8B84B" stroke-width="1" opacity="0.4"/>
+
+                <!-- ── MILK (cream/white on dark bg — now clearly visible) ── -->
+                <!-- Milk surface inside pot -->
+                <ellipse cx="200" cy="22" rx="27" ry="6" fill="#F0EAD6" stroke="#FFFFFF" stroke-width="1.5"/>
+
+                <!-- OVERFLOWING MILK animated group -->
                 <g style="animation: milkBoil 1.2s ease-in-out infinite;">
-                  <!-- Overflow right -->
-                  <path d="M228,22 Q240,18 248,28 Q252,35 244,42 Q238,48 230,44" fill="white" opacity="0.9"/>
-                  <!-- Overflow left -->
-                  <path d="M172,22 Q160,18 152,28 Q148,35 156,42 Q162,48 170,44" fill="white" opacity="0.9"/>
-                  <!-- Overflow front -->
-                  <path d="M185,22 Q200,14 215,22 Q220,30 215,38 Q200,44 185,38 Q180,30 185,22" fill="white" opacity="0.85"/>
+                  <!-- Overflow blob right -->
+                  <path d="M226,22 Q242,16 250,27 Q255,36 246,44 Q238,50 228,45"
+                        fill="#F0EAD6" stroke="#FFFFFF" stroke-width="1.2" opacity="1"/>
+                  <!-- Overflow blob left -->
+                  <path d="M174,22 Q158,16 150,27 Q145,36 154,44 Q162,50 172,45"
+                        fill="#F0EAD6" stroke="#FFFFFF" stroke-width="1.2" opacity="1"/>
+                  <!-- Overflow blob front/top -->
+                  <path d="M183,20 Q200,11 217,20 Q223,29 217,38 Q200,45 183,38 Q177,29 183,20"
+                        fill="#F0EAD6" stroke="#FFFFFF" stroke-width="1.2" opacity="0.95"/>
+                  <!-- Milk foam texture dots -->
+                  <circle cx="200" cy="16" r="3" fill="white" opacity="0.7"/>
+                  <circle cx="192" cy="20" r="2" fill="white" opacity="0.6"/>
+                  <circle cx="208" cy="19" r="2" fill="white" opacity="0.6"/>
+                  <circle cx="246" cy="32" r="2.5" fill="white" opacity="0.7"/>
+                  <circle cx="154" cy="32" r="2.5" fill="white" opacity="0.7"/>
                 </g>
-                <!-- Dripping milk drops -->
-                <circle cx="248" cy="50" r="4" fill="white" opacity="0.85">
-                  <animate attributeName="cy" values="42;80" dur="1.5s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values="0.85;0" dur="1.5s" repeatCount="indefinite"/>
+
+                <!-- Dripping milk drops — cream coloured, outlined -->
+                <circle cx="250" cy="42" r="4.5" fill="#F0EAD6" stroke="white" stroke-width="1">
+                  <animate attributeName="cy" values="44;88" dur="1.5s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="1;0" dur="1.5s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="152" cy="52" r="4" fill="white" opacity="0.85">
-                  <animate attributeName="cy" values="42;80" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
-                  <animate attributeName="opacity" values="0.85;0" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
+                <circle cx="150" cy="44" r="4.5" fill="#F0EAD6" stroke="white" stroke-width="1">
+                  <animate attributeName="cy" values="44;88" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
+                  <animate attributeName="opacity" values="1;0" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
                 </circle>
-                <circle cx="200" cy="44" r="5" fill="white" opacity="0.9">
-                  <animate attributeName="cy" values="38;80" dur="1.3s" repeatCount="indefinite" begin="0.3s"/>
-                  <animate attributeName="opacity" values="0.9;0" dur="1.3s" repeatCount="indefinite" begin="0.3s"/>
+                <circle cx="200" cy="40" r="5" fill="#F0EAD6" stroke="white" stroke-width="1">
+                  <animate attributeName="cy" values="38;85" dur="1.3s" repeatCount="indefinite" begin="0.3s"/>
+                  <animate attributeName="opacity" values="1;0" dur="1.3s" repeatCount="indefinite" begin="0.3s"/>
                 </circle>
-                <!-- Steam -->
-                <ellipse cx="195" cy="10" rx="6" ry="8" fill="white" opacity="0.5"
+                <!-- Smaller secondary drops -->
+                <circle cx="238" cy="50" r="3" fill="white">
+                  <animate attributeName="cy" values="50;95" dur="1.8s" repeatCount="indefinite" begin="0.7s"/>
+                  <animate attributeName="opacity" values="0.9;0" dur="1.8s" repeatCount="indefinite" begin="0.7s"/>
+                </circle>
+                <circle cx="163" cy="50" r="3" fill="white">
+                  <animate attributeName="cy" values="50;95" dur="1.8s" repeatCount="indefinite" begin="1.1s"/>
+                  <animate attributeName="opacity" values="0.9;0" dur="1.8s" repeatCount="indefinite" begin="1.1s"/>
+                </circle>
+
+                <!-- Steam — light grey/white on dark bg, very visible -->
+                <ellipse cx="195" cy="10" rx="7" ry="9" fill="#D0C8B8" opacity="0.7"
                          style="animation: steamRise 2s ease-out infinite;"/>
-                <ellipse cx="210" cy="5" rx="5" ry="7" fill="white" opacity="0.4"
+                <ellipse cx="212" cy="5"  rx="6" ry="8" fill="#D0C8B8" opacity="0.6"
                          style="animation: steamRise 2s ease-out infinite 0.6s;"/>
-                <ellipse cx="188" cy="8" rx="5" ry="7" fill="white" opacity="0.4"
+                <ellipse cx="186" cy="7"  rx="6" ry="8" fill="#D0C8B8" opacity="0.6"
                          style="animation: steamRise 2s ease-out infinite 1.2s;"/>
+
                 <!-- Turmeric/flower offerings near pot -->
-                <circle cx="155" cy="152" r="5" fill="#FFD700" opacity="0.8"/>
-                <circle cx="245" cy="152" r="5" fill="#FF9933" opacity="0.8"/>
-                <text x="155" y="172" text-anchor="middle" font-size="8" fill="#8B4513" font-family="Inter, sans-serif">Turmeric</text>
-                <text x="245" y="172" text-anchor="middle" font-size="8" fill="#8B4513" font-family="Inter, sans-serif">Marigold</text>
-                <!-- Direction arrow (East) -->
-                <text x="310" y="45" text-anchor="middle" font-size="10" fill="#B30006" font-family="Inter, sans-serif" font-weight="700">← EAST</text>
-                <text x="310" y="62" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">Milk must overflow</text>
-                <text x="310" y="76" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">toward the East</text>
-                <text x="310" y="90" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">for full prosperity</text>
-                <!-- Arrow pointing to overflow direction -->
-                <line x1="280" y1="45" x2="255" y2="35" stroke="#B30006" stroke-width="1.5" marker-end="url(#arr2)"/>
+                <circle cx="145" cy="152" r="6" fill="#FFD700"/>
+                <circle cx="255" cy="152" r="6" fill="#FF9933"/>
+                <text x="145" y="170" text-anchor="middle" font-size="8" fill="#E8C070" font-family="Inter, sans-serif">Turmeric</text>
+                <text x="255" y="170" text-anchor="middle" font-size="8" fill="#E8C070" font-family="Inter, sans-serif">Marigold</text>
+
+                <!-- Direction label (East) -->
+                <text x="330" y="42" text-anchor="middle" font-size="10" fill="#FF9933" font-family="Inter, sans-serif" font-weight="700">← EAST</text>
+                <text x="330" y="58" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">Milk must overflow</text>
+                <text x="330" y="72" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">toward the East</text>
+                <text x="330" y="86" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">for full prosperity</text>
+                <!-- Arrow -->
+                <line x1="295" y1="42" x2="268" y2="32" stroke="#FF9933" stroke-width="1.5" marker-end="url(#arr2)"/>
                 <defs>
                   <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                    <path d="M2 1L8 5L2 9" fill="none" stroke="#B30006" stroke-width="1.5"/>
+                    <path d="M2 1L8 5L2 9" fill="none" stroke="#FF9933" stroke-width="1.5"/>
                   </marker>
                 </defs>
-                <!-- Label -->
-                <text x="45" y="90" text-anchor="middle" font-size="10" fill="#B30006" font-family="Inter, sans-serif" font-weight="700">Haalu</text>
-                <text x="45" y="105" text-anchor="middle" font-size="10" fill="#B30006" font-family="Inter, sans-serif" font-weight="700">Pongithe</text>
-                <text x="45" y="120" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">"Milk rises"</text>
-                <text x="45" y="133" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">= prosperity</text>
-                <text x="45" y="146" text-anchor="middle" font-size="9" fill="#6B4C3B" font-family="Inter, sans-serif">overflowing</text>
+                <!-- Left label -->
+                <text x="52" y="85"  text-anchor="middle" font-size="10" fill="#FF9933" font-family="Inter, sans-serif" font-weight="700">Haalu</text>
+                <text x="52" y="100" text-anchor="middle" font-size="10" fill="#FF9933" font-family="Inter, sans-serif" font-weight="700">Pongithe</text>
+                <text x="52" y="114" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">"Milk rises"</text>
+                <text x="52" y="127" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">= prosperity</text>
+                <text x="52" y="140" text-anchor="middle" font-size="8.5" fill="#D4A060" font-family="Inter, sans-serif">overflowing</text>
               </svg>
             </div>
             <p style="margin-top:1rem;"><span class="lang-en">Once the cow enters, the lady of the house kindles a fire — in some families using traditional wood, in others a gas stove — and places a pot of whole fresh milk to boil. Then, the family watches with held breath as the milk heats up.</span><span class="lang-te te">గోమాత ప్రవేశించిన తర్వాత, ఇంటి యజమాని పాలను మంటపై పెడతారు. కుటుంబం అందరూ పాలు పొంగే వరకు చూస్తారు.</span></p>
@@ -1995,97 +2030,65 @@ body.telugu .lang-en-inline { display: none; }
       </div>
 
       <!-- CARD 4: Kolam/Muggu -->
-      <div class="cultural-card" onclick="toggleCard(this)">
+      <div class="cultural-card" onclick="toggleCard(this)" id="kolam-card">
         <div class="cultural-card-header">
           <span class="cultural-card-icon">🌺</span>
           <span class="cultural-card-title">
-            <span class="lang-en">Muggu / Kolam — Floor Art</span>
+            <span class="lang-en">Muggu — Floor Art</span>
             <span class="lang-te te">ముగ్గు — నేల అలంకరణ</span>
           </span>
           <span class="cultural-expand">▼</span>
         </div>
         <div class="cultural-card-body">
           <div class="cultural-card-body-inner">
-            <!-- Animated Kolam -->
+            <!-- Animated Kolam — animation starts only when card opens -->
             <div class="illustration-scene" style="background:#FFF8EC;border-radius:8px;padding:1rem;">
-              <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;" aria-label="Animated traditional Telugu Muggu / Kolam pattern being drawn with rice flour">
+              <svg id="kolam-svg" viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;" aria-label="Animated traditional Telugu Muggu / Kolam pattern being drawn with rice flour">
                 <rect width="360" height="200" fill="#FFF8EC" rx="6"/>
-                <!-- Kolam being drawn (animated) -->
                 <g transform="translate(180,100)">
-                  <!-- Outer circle pattern -->
-                  <circle r="80" fill="none" stroke="#FF9933" stroke-width="2" opacity="0.3" stroke-dasharray="500" stroke-dashoffset="500">
-                    <animate attributeName="stroke-dashoffset" values="500;0" dur="3s" fill="freeze"/>
-                  </circle>
-                  <!-- Star of David style pattern -->
-                  <path d="M0,-70 L60,35 L-60,35 Z" fill="none" stroke="#B30006" stroke-width="2" opacity="0.7" stroke-dasharray="300" stroke-dashoffset="300">
-                    <animate attributeName="stroke-dashoffset" values="300;0" dur="2.5s" begin="0.5s" fill="freeze"/>
-                  </path>
-                  <path d="M0,70 L60,-35 L-60,-35 Z" fill="none" stroke="#B30006" stroke-width="2" opacity="0.7" stroke-dasharray="300" stroke-dashoffset="300">
-                    <animate attributeName="stroke-dashoffset" values="300;0" dur="2.5s" begin="1s" fill="freeze"/>
-                  </path>
+                  <!-- Outer circle -->
+                  <circle class="kolam-path" r="80" fill="none" stroke="#FF9933" stroke-width="2" opacity="0.3"
+                          stroke-dasharray="502" stroke-dashoffset="502"/>
+                  <!-- Triangle 1 -->
+                  <path class="kolam-path" d="M0,-70 L60,35 L-60,35 Z" fill="none" stroke="#B30006" stroke-width="2" opacity="0.7"
+                        stroke-dasharray="300" stroke-dashoffset="300"/>
+                  <!-- Triangle 2 -->
+                  <path class="kolam-path" d="M0,70 L60,-35 L-60,-35 Z" fill="none" stroke="#B30006" stroke-width="2" opacity="0.7"
+                        stroke-dasharray="300" stroke-dashoffset="300"/>
                   <!-- Inner circle -->
-                  <circle r="50" fill="none" stroke="#C8973A" stroke-width="1.5" opacity="0.6" stroke-dasharray="320" stroke-dashoffset="320">
-                    <animate attributeName="stroke-dashoffset" values="320;0" dur="2s" begin="1.5s" fill="freeze"/>
-                  </circle>
-                  <!-- Petal pattern -->
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(0)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="2s" fill="freeze"/>
-                  </ellipse>
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(60)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="2.2s" fill="freeze"/>
-                  </ellipse>
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(120)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="2.4s" fill="freeze"/>
-                  </ellipse>
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(180)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="2.6s" fill="freeze"/>
-                  </ellipse>
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(240)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="2.8s" fill="freeze"/>
-                  </ellipse>
-                  <ellipse rx="12" ry="28" fill="#FF9933" opacity="0.5" transform="rotate(300)">
-                    <animate attributeName="opacity" values="0;0.5" dur="1s" begin="3s" fill="freeze"/>
-                  </ellipse>
-                  <!-- Center dot grid -->
-                  <g opacity="0">
-                    <animate attributeName="opacity" values="0;1" dur="0.5s" begin="3.5s" fill="freeze"/>
-                    <circle cx="0" cy="0" r="5" fill="#B30006"/>
-                    <circle cx="-18" cy="0" r="3" fill="#FF9933"/>
-                    <circle cx="18" cy="0" r="3" fill="#FF9933"/>
-                    <circle cx="0" cy="-18" r="3" fill="#FF9933"/>
-                    <circle cx="0" cy="18" r="3" fill="#FF9933"/>
+                  <circle class="kolam-path" r="50" fill="none" stroke="#C8973A" stroke-width="1.5" opacity="0.6"
+                          stroke-dasharray="314" stroke-dashoffset="314"/>
+                  <!-- Petals -->
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(0)"   style="opacity:0;"/>
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(60)"  style="opacity:0;"/>
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(120)" style="opacity:0;"/>
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(180)" style="opacity:0;"/>
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(240)" style="opacity:0;"/>
+                  <ellipse class="kolam-petal" rx="12" ry="28" fill="#FF9933" transform="rotate(300)" style="opacity:0;"/>
+                  <!-- Centre dot group -->
+                  <g class="kolam-dots" style="opacity:0;">
+                    <circle cx="0"   cy="0"   r="5"   fill="#B30006"/>
+                    <circle cx="-18" cy="0"   r="3"   fill="#FF9933"/>
+                    <circle cx="18"  cy="0"   r="3"   fill="#FF9933"/>
+                    <circle cx="0"   cy="-18" r="3"   fill="#FF9933"/>
+                    <circle cx="0"   cy="18"  r="3"   fill="#FF9933"/>
                     <circle cx="-13" cy="-13" r="2.5" fill="#C8973A"/>
-                    <circle cx="13" cy="-13" r="2.5" fill="#C8973A"/>
-                    <circle cx="-13" cy="13" r="2.5" fill="#C8973A"/>
-                    <circle cx="13" cy="13" r="2.5" fill="#C8973A"/>
+                    <circle cx="13"  cy="-13" r="2.5" fill="#C8973A"/>
+                    <circle cx="-13" cy="13"  r="2.5" fill="#C8973A"/>
+                    <circle cx="13"  cy="13"  r="2.5" fill="#C8973A"/>
                   </g>
-                  <!-- Outer dots -->
-                  <g>
-                    <circle cx="0" cy="-80" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="0.5s" fill="freeze"/>
-                    </circle>
-                    <circle cx="69" cy="-40" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="0.7s" fill="freeze"/>
-                    </circle>
-                    <circle cx="69" cy="40" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="0.9s" fill="freeze"/>
-                    </circle>
-                    <circle cx="0" cy="80" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="1.1s" fill="freeze"/>
-                    </circle>
-                    <circle cx="-69" cy="40" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="1.3s" fill="freeze"/>
-                    </circle>
-                    <circle cx="-69" cy="-40" r="4" fill="#B30006" opacity="0">
-                      <animate attributeName="opacity" values="0;0.8" dur="0.3s" begin="1.5s" fill="freeze"/>
-                    </circle>
-                  </g>
+                  <!-- Outer accent dots -->
+                  <circle class="kolam-dots" cx="0"   cy="-80" r="4" fill="#B30006" style="opacity:0;"/>
+                  <circle class="kolam-dots" cx="69"  cy="-40" r="4" fill="#B30006" style="opacity:0;"/>
+                  <circle class="kolam-dots" cx="69"  cy="40"  r="4" fill="#B30006" style="opacity:0;"/>
+                  <circle class="kolam-dots" cx="0"   cy="80"  r="4" fill="#B30006" style="opacity:0;"/>
+                  <circle class="kolam-dots" cx="-69" cy="40"  r="4" fill="#B30006" style="opacity:0;"/>
+                  <circle class="kolam-dots" cx="-69" cy="-40" r="4" fill="#B30006" style="opacity:0;"/>
                 </g>
-                <!-- Rice flour trail visual hint -->
                 <text x="50" y="185" font-size="9" fill="#8B4513" font-family="Inter, sans-serif">Made with rice flour • Drawn at dawn • Renewed daily</text>
               </svg>
             </div>
-            <p style="margin-top:1rem;"><span class="lang-en"><strong>Muggu</strong> (in Telugu) or Kolam (in Tamil) are intricate geometric patterns drawn on the floor at the entrance of a home using <em>rice flour</em>. They are one of the oldest and most beautiful living art traditions in South India.</span><span class="lang-te te"><strong>ముగ్గు</strong> (తెలుగులో) లేదా కోలం (తమిళంలో) - ఇవి ఇంటి ముందు వడ్లపిండితో గీసే అందమైన జ్యామితీయ పద్ధతులు. ఇవి దక్షిణ భారతదేశంలో అత్యంత పురాతనమైన కళా సంప్రదాయాలు.</span></p>
+            <p style="margin-top:1rem;"><span class="lang-en"><strong>Muggu</strong> (in Telugu) are intricate geometric patterns drawn on the floor at the entrance of a home using <em>rice flour</em>. They are one of the oldest and most beautiful living art traditions in South India.</span><span class="lang-te te"><strong>ముగ్గు</strong> (తెలుగులో) లేదా కోలం (తమిళంలో) - ఇవి ఇంటి ముందు వడ్లపిండితో గీసే అందమైన జ్యామితీయ పద్ధతులు. ఇవి దక్షిణ భారతదేశంలో అత్యంత పురాతనమైన కళా సంప్రదాయాలు.</span></p>
             <p><span class="lang-en">The daily act of drawing the muggu is also an act of prayer. The rice flour is food for <strong>ants, birds, and insects</strong> — a daily expression of the Hindu principle that hospitality extends to all living beings, not just guests who ring the doorbell. A home that feeds the smallest creatures at its threshold is one of a generous spirit.</span><span class="lang-te te">ముగ్గు గీయడం ఒక ప్రార్థన. వడ్లపిండి <strong>చీమలు, పక్షులు మరియు పురుగులకు</strong> ఆహారం — ప్రతి జీవికి ఆతిథ్యం ఇవ్వడమే హిందూ సంప్రదాయం.</span></p>
           </div>
         </div>
@@ -2200,8 +2203,8 @@ body.telugu .lang-en-inline { display: none; }
       <span class="lang-te te">ఇక్కడ మాతో చేరండి</span>
     </h2>
     <p class="section-sub">
-      <span class="lang-en">Langley, British Columbia, Canada</span>
-      <span class="lang-te te">లాంగ్లీ, బ్రిటిష్ కొలంబియా, కెనడా</span>
+      <span class="lang-en">Langley Township, British Columbia, Canada</span>
+      <span class="lang-te te">లాంగ్లీ టౌన్‌షిప్, బ్రిటిష్ కొలంబియా, కెనడా</span>
     </p>
 
     <div class="location-card">
@@ -2212,40 +2215,42 @@ body.telugu .lang-en-inline { display: none; }
             <span class="lang-te te">జుటూరు కుటుంబ నివాసం</span>
           </h3>
           <p class="location-addr">
-            123 Maple Grove Drive<br>
-            Langley, BC V3A 2K8<br>
+            7936 206 St<br>
+            Langley Township, BC V2Y 3W7<br>
             British Columbia, Canada
           </p>
 
           <div class="location-detail-row">
             <span class="location-detail-icon">📅</span>
-            <span><strong><span class="lang-en">Friday, August 8, 2025</span><span class="lang-te te">శుక్రవారం, ఆగస్టు 8, 2025</span></strong></span>
+            <span><strong><span class="lang-en">Wednesday, July 1, 2026</span><span class="lang-te te">బుధవారం, జూలై 1, 2026</span></strong></span>
           </div>
           <div class="location-detail-row">
             <span class="location-detail-icon">⏰</span>
-            <span>7:00 AM – 3:00 PM</span>
+            <span>7:00 AM – 2:00 PM</span>
           </div>
           <div class="location-detail-row">
             <span class="location-detail-icon">🚗</span>
-            <span><span class="lang-en">Ample parking available on-street and nearby</span><span class="lang-te te">దగ్గర పార్కింగ్ అందుబాటులో ఉంది</span></span>
-          </div>
-          <div class="location-detail-row">
-            <span class="location-detail-icon">📞</span>
-            <span>+1 (604) 555-0142 <span class="lang-en">(for queries)</span><span class="lang-te te">(సందేహాల కోసం)</span></span>
+            <span><span class="lang-en">Ample parking available in visitors parking next to building</span><span class="lang-te te">దగ్గర పార్కింగ్ అందుబాటులో ఉంది</span></span>
           </div>
 
-          <a href="https://maps.google.com" class="btn-directions" target="_blank" rel="noopener">
+          <div class="location-detail-row">
+            <span class="location-detail-icon">📞</span>
+            <span>+1 (902) 449-9979 <span class="lang-en">(for queries)</span><span class="lang-te te">(సందేహాల కోసం)</span></span>
+          </div>
+
+          <a href="https://maps.app.goo.gl/7en6xsrCjLxFpbEW8" class="btn-directions" target="_blank" rel="noopener">
             🗺️ <span class="lang-en">Get Directions</span><span class="lang-te te">దిశలు పొందండి</span>
           </a>
         </div>
 
-        <div class="map-placeholder">
-          <div class="map-grid"></div>
-          <div class="map-pin">📍</div>
-          <div class="map-label">
-            <span class="lang-en">Langley, BC · Canada</span>
-            <span class="lang-te te">లాంగ్లీ, కెనడా</span>
-          </div>
+        <div class="map-embed">
+          <iframe
+            src="https://maps.google.com/maps?q=49.1470377,-122.6507011&z=17&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Juturu Family Home — 207 - 7936 206 St, Langley Township, BC">
+          </iframe>
         </div>
       </div>
     </div>
@@ -2265,7 +2270,7 @@ body.telugu .lang-en-inline { display: none; }
   </p>
   <div class="garland-border" aria-hidden="true">🪔 ✨ 🪔 ✨ 🪔 ✨ 🪔</div>
   <p class="footer-sub">
-    Sri Satyanarayana Swamy Blessings · August 8, 2025 · Langley, BC, Canada
+    Sri Satyanarayana Swamy Blessings · July 1, 2026 · Langley, BC, Canada
   </p>
 </footer>
 
@@ -2321,12 +2326,36 @@ function setLang(lang) {
 function toggleCard(card) {
   const wasOpen = card.classList.contains('open');
   document.querySelectorAll('.cultural-card').forEach(c => c.classList.remove('open'));
-  if (!wasOpen) card.classList.add('open');
+  if (!wasOpen) {
+    card.classList.add('open');
+    // Trigger kolam drawing animation only when that card opens
+    if (card.id === 'kolam-card') {
+      triggerKolamAnimation();
+    }
+  } else {
+    // Reset kolam if it was the one being closed so it redraws next time
+    if (card.id === 'kolam-card') {
+      resetKolam();
+    }
+  }
+}
+
+function triggerKolamAnimation() {
+  // Small delay so card slide-open starts first, then add .draw to kick off all CSS transitions
+  setTimeout(() => {
+    document.getElementById('kolam-svg').classList.add('draw');
+  }, 150);
+}
+
+function resetKolam() {
+  const svg = document.getElementById('kolam-svg');
+  // Remove .draw — this instantly snaps everything back because transition is `none` without the class
+  svg.classList.remove('draw');
 }
 
 // ── RSVP ──
 // 👇 Paste your deployed Web App URL here after following the setup steps
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxbwylrLCraeF2NJU5oDEFibOo8xIGOEyw4wkXQlksA1qTx2DE96AlQb6b4umxf_bVeZA/exec';
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
 
 async function submitRSVP() {
   const name      = document.getElementById('rsvp-name').value.trim();
